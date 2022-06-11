@@ -1,5 +1,4 @@
 # Basic Integraion
----
 *implement numeric integraition in simple but elegent way*
 
 ### methodology

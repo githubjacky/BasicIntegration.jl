@@ -9,51 +9,45 @@
 - Monte Carlo integration
     - vanilla Monte Carlo
     - Quassi Monte Carlo
-    - Importance Sampling(can only use for one dimension problem just now)
+        - use [Halton sequences](https://github.com/tobydriscoll/HaltonSequences.jl) to implment
+    - Importance Sampling
+        - input include distribution
         - using Halton sequences to do inverse transform sampling
+
+
+### function
+- `GHermite()`, `GLaguerre()`, `GLegendre()`, `GQ()`
+    - `GQ()` takes advantage of gausshermite and gausslaguerre to deal with the problem with domain [-Inf, 0] 
+        - only for one dimension support
+    - all the others can estimate multidimension problem with the vector-like input
+- `MCM()`, `quaMCM()`, `IShalton()`
+    - `IShalton()` can only be used for one dimenson problem just now
 
 
 ### usage
 ```julia
 # one dimension problem
 g = x -> exp(-x^2 / 3) * sqrt(1 + x^2)
-a, b = -Inf, Inf
+a, b = -Inf, Inf  # domain
 GHermite(g, a, b, 30)  # the last parameter is the n-point Gauss Quadrature nodes and weights
+GLaguerre(g, a, b, 30)  # the last parameter is the n-point Gauss Quadrature nodes and weights
+
+m(x, c=1e-9, k=2) = c * x^(-k-1) * (1-x)^(k+1)
+a, b = -1e-5, 1  # domain
+d = truncated(Normal(1e-5+1e-3, 1e-3), 1e-5, 1)  # distribution
+nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
+@show IShalton(m, a, b, d, nodesNum)
 
 
 # multidimension problem
 g = x -> 1 / (x[1] + 1) + sqrt(x[2]) + 2 * (x[3]^2) + sqrt(2 * x[4]) + cbrt(x[5])
-A, B = [0, 0, 0, 0, 0], [1, 1, 1, 1, 1]
+A, B = [0, 0, 0, 0, 0], [1, 1, 1, 1, 1]  # domain
 nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
 MCM(g, A, B, nodesNum, seed=1234)
 quaMCM(g, A, B, nodesNum)
 GLegendre(g, A, B, 30)
 ```
 
-### implementation
-```julia
-function GHermite(g::Function, a::Real, b::Real, n::Int64) end
-function GHermite(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-function GLaguerre(g::Function, a::Real, b::Real, n::Int64) end
-function GLaguerre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-function GLegendre(g::Function, a::Real, b::Real, n::Int64) end
-function GLegendre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-#= provide another method to deal with the intergral: [-Inf, b],
-    take advantage of both gausshermite and gausslaguerre =#
-function GQ(g::Function, b::Real, n::Int64) end
-
-
-function MCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}; seed) end
-function MCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}; seed) where {T<:Real, P<:Real} end
-
-function quaMCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}) end
-function quaMCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}) where {T<:Real, P<:Real} end
-
-function IShalton(g::Function, a::Real, b::Real, d::UnivariateDistribution, nodesNum::Vector{Int64}) end
-```
 
 ### note
 - newbie of julia programming but with enthusiasm

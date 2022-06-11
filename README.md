@@ -11,22 +11,22 @@
     - Quassi Monte Carlo
         - use [Halton sequences](https://github.com/tobydriscoll/HaltonSequences.jl) to implment
     - Importance Sampling
-        - input include distribution
+        - input should include distribution
         - using Halton sequences to do inverse transform sampling
 
 
 ### function
 - `GHermite()`, `GLaguerre()`, `GLegendre()`, `GQ()`
     - `GQ()` takes advantage of gausshermite and gausslaguerre to deal with the problem with domain [-Inf, 0] 
-        - only for one dimension support
-    - all the others can estimate multidimension problem with the vector-like input
+        - only support univariable problem
+    - all the others can estimate multivariale problem with the vector-like input
 - `MCM()`, `quaMCM()`, `IShalton()`
-    - `IShalton()` can only be used for one dimenson problem just now
+    - `IShalton()` can only be used for univariable problem just now
 
 
 ### usage
 ```julia
-# one dimension problem
+# univariable
 g = x -> exp(-x^2 / 3) * sqrt(1 + x^2)
 a, b = -Inf, Inf  # domain
 GHermite(g, a, b, 30)  # the last parameter is the n-point Gauss Quadrature nodes and weights
@@ -39,7 +39,7 @@ nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
 @show IShalton(m, a, b, d, nodesNum)
 
 
-# multidimension problem
+# multivariable
 g = x -> 1 / (x[1] + 1) + sqrt(x[2]) + 2 * (x[3]^2) + sqrt(2 * x[4]) + cbrt(x[5])
 A, B = [0, 0, 0, 0, 0], [1, 1, 1, 1, 1]  # domain
 nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]

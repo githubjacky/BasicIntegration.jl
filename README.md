@@ -30,13 +30,13 @@
 g = x -> exp(-x^2 / 3) * sqrt(1 + x^2)
 a, b = -Inf, Inf  # domain
 GHermite(g, a, b, 30)  # the last parameter is the n-point Gauss Quadrature nodes and weights
-GLaguerre(g, a, b, 30)  # the last parameter is the n-point Gauss Quadrature nodes and weights
+GLaguerre(g, a, b, 30) 
 
 m(x, c=1e-9, k=2) = c * x^(-k-1) * (1-x)^(k+1)
 a, b = -1e-5, 1  # domain
 d = truncated(Normal(1e-5+1e-3, 1e-3), 1e-5, 1)  # distribution
 nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
-@show IShalton(m, a, b, d, nodesNum)
+IShalton(m, a, b, d, nodesNum)
 
 
 # multivariable

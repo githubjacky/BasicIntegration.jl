@@ -13,33 +13,6 @@
         - using Halton sequences to do inverse transform sampling
 
 
-### function in use
-```julia
-function GHermite(g::Function, a::Real, b::Real, n::Int64) end
-function GHermite(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-function GLaguerre(g::Function, a::Real, b::Real, n::Int64) end
-function GLaguerre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-function GLegendre(g::Function, a::Real, b::Real, n::Int64) end
-function GLegendre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
-
-#= provide another method to deal with the intergral: [-Inf, b],
-    take advantage of both gausshermite and gausslaguerre =#
-function GQ(g::Function, b::Real, n::Int64) end #
-
-
-function MCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}; seed) end
-function MCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}; seed) where {T<:Real, P<:Real} end
-
-function quaMCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}) end
-function quaMCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}) where {T<:Real, P<:Real} end
-
-function IShalton(g::Function, a::Real, b::Real, d::UnivariateDistribution, nodesNum::Vector{Int64}) end
-```
-
-
-
 ### usage
 ```julia
 # one dimension problem
@@ -55,6 +28,31 @@ nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
 MCM(g, A, B, nodesNum, seed=1234)
 quaMCM(g, A, B, nodesNum)
 GLegendre(g, A, B, 30)
+```
+
+### implementation
+```julia
+function GHermite(g::Function, a::Real, b::Real, n::Int64) end
+function GHermite(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
+
+function GLaguerre(g::Function, a::Real, b::Real, n::Int64) end
+function GLaguerre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
+
+function GLegendre(g::Function, a::Real, b::Real, n::Int64) end
+function GLegendre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real} end
+
+#= provide another method to deal with the intergral: [-Inf, b],
+    take advantage of both gausshermite and gausslaguerre =#
+function GQ(g::Function, b::Real, n::Int64) end
+
+
+function MCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}; seed) end
+function MCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}; seed) where {T<:Real, P<:Real} end
+
+function quaMCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}) end
+function quaMCM(g::Function, A::Vector{T}, B::Vector{P}, nodesNum::Vector{Int64}) where {T<:Real, P<:Real} end
+
+function IShalton(g::Function, a::Real, b::Real, d::UnivariateDistribution, nodesNum::Vector{Int64}) end
 ```
 
 ### note

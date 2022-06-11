@@ -1,8 +1,8 @@
 # Basic Integraion
-*implement numeric integraition in simple but elegent way*
+*pick the right method and don't need to worry about the domain*
 
 ### methodology
-- Gaussian Quadrature
+- Gaussian Quadrature(use [FastGaussQuadrature](https://github.com/JuliaApproximation/FastGaussQuadrature.jl) to generate the nodes and weights)
     - Gauss-Hermite
     - Gauss-Laguerre
     - Gauss-legendre

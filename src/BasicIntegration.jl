@@ -4,6 +4,7 @@ export GHermite, GLaguerre, GLegendre, GQ, MCM, quaMCM, IShalton
 
 import FastGaussQuadrature: gausshermite, gausslaguerre, gausslegendre
 import HaltonSequences: HaltonPoint, Halton
+import LinearAlgebra: dot
 using Random, Distributions
 
 include("GQutils.jl")
@@ -19,7 +20,7 @@ function GHermite(g::Function, a::Real, b::Real, n::Int64)  # one dimension case
         x1, jcb1, x2, jcb2 = GHdt(a, b)
         f = t -> invp(t) * g(x1(x2(t))) * jcb1(x2(t)) * jcb2(t)
     end
-    return sum(f.(nodes) .* w)
+    return dot(f.(nodes), w)
 end
 
 # multidimension case
@@ -29,7 +30,7 @@ function GHermite(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:R
     nodes, w = gausslegendre(n)
     Nodes, W = nodesGen(n, dim, nodes, w)  # the algorithm to generate gausshermite nodes and weights
     f = MultiDim_GHdt(g, A, B, invp, dim)
-    return sum(f.(Nodes) .* W)
+    return dot(f.(Nodes), W)
 end
 
 
@@ -42,7 +43,7 @@ function GLaguerre(g::Function, a::Real, b::Real, n::Int64)  # one dimension cas
         x1, jcb1, x2, jcb2 = GLadt(a, b)
         f = t -> invp(t) * g(x1(x2(t))) * jcb1(x2(t)) * jcb2(t)
     end
-    return sum(f.(nodes) .* w)
+    return dot(f.(nodes), w)
 end
 
 # multidimension case
@@ -52,7 +53,7 @@ function GLaguerre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:
     nodes, w = gausslegendre(n)
     Nodes, W = nodesGen(n, dim, nodes, w)  # the algorithm to generate gausshermite nodes and weights
     f = MultiDim_GLadt(g, A, B, invp, dim)
-    return sum(f.(Nodes) .* W)
+    return dot(f.(Nodes), W)
 end
 
 
@@ -64,7 +65,7 @@ function GLegendre(g::Function, a::Real, b::Real, n::Int64)  # one dimension cas
         x1, jcb1 = GLdt(a, b)
         f = t -> g(x1(t)) * jcb1(t)
     end
-    return sum(f.(nodes) .* w)
+    return dot(f.(nodes), w)
 end
 
 # multidimension case
@@ -73,7 +74,7 @@ function GLegendre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:
     nodes, w = gausslegendre(n)
     Nodes, W = nodesGen(n, dim, nodes, w)  # the algorithm to generate gausshermite nodes and weights
     g = MultiDim_GLdt(g, A, B, dim)
-    return sum(g.(Nodes) .* W)
+    return dot(g.(Nodes), W)
 end
 
 
@@ -86,7 +87,7 @@ function GQ(g::Function, b::Real, n::Int64)
     nodes2, w2 = gausslaguerre(n)
     invp2(x) = exp(x)
     f2 = b == 0 ? (x -> invp2(x) * g(x)) : (x -> invp2(x) * g(x+b))
-    return sum(f1.(nodes1) .* w1) - sum(f2.(nodes2) .* w2)
+    return dot(f1.(nodes1), w1) - dot(f2.(nodes2), w2)
 end
 
 

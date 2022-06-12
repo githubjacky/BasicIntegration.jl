@@ -11,6 +11,7 @@
     - vanilla Monte Carlo
     - Quassi Monte Carlo
         - use [Halton sequences](https://github.com/tobydriscoll/HaltonSequences.jl) to implment
+        - since the prime I choose is 2 so it's better to pick nodes$=2^n-1$
     - Importance Sampling
         - input should include distribution
         - using Halton sequences to do inverse transform sampling

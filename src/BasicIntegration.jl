@@ -27,7 +27,7 @@ end
 function GHermite(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real}
     length(A) == length(B) ? (dim = length(A)) : throw("dimension of domain inconsist")
     invp(x) = exp(x^2)
-    nodes, w = gausslegendre(n)
+    nodes, w = gausshermite(n)
     Nodes, W = nodesGen(n, dim, nodes, w)  # the algorithm to generate gausshermite nodes and weights
     f = MultiDim_GHdt(g, A, B, invp, dim)
     return dot(f.(Nodes), W)
@@ -50,7 +50,7 @@ end
 function GLaguerre(g::Function, A::Vector{T}, B::Vector{P}, n::Int64) where {T<:Real, P<:Real}
     length(A) == length(B) ? (dim = length(A)) : throw("dimension of domain inconsist")
     invp(x) = exp(x)
-    nodes, w = gausslegendre(n)
+    nodes, w = gausslaguerre(n)
     Nodes, W = nodesGen(n, dim, nodes, w)  # the algorithm to generate gausshermite nodes and weights
     f = MultiDim_GLadt(g, A, B, invp, dim)
     return dot(f.(Nodes), W)

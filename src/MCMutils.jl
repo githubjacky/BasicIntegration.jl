@@ -28,25 +28,25 @@ function multiDim_MCMdt(g::Function, A::Vector{T}, B::Vector{P}, dim) where {T<:
 end
 
 
-function MCMrule1()  # [-Inf, Inf] to [0, 1]
+function MCMrule1()  # [0, 1] to [-Inf, Inf]
     x(t) = (2t - 1) / (t - t^2)
     jcb(t) = (2t^2 - 2t + 1) / (t^2 - t)^2
     return x, jcb
 end
 
-function MCMrule2(a)  # [a, Inf] to [0, 1]
+function MCMrule2(a)  # [0, 1] to [a, Inf]
     x(t) = a + t / (1 - t)
     jcb(t) = 1 / (t - 1)^2
     return x, jcb
 end
 
-function MCMrule3(b)  # [-Inf, b] to [0, 1]
+function MCMrule3(b)  # [0, 1] to [-Inf, b]
     x(t) = b + (t - 1) / t
     jcb(t) = 1 / t^2
     return x, jcb
 end
 
-function MCMrule4(a, b)  # proper to [0, 1]
+function MCMrule4(a, b)  # [0, 1] to prober
     x(t) = a + (b - a)t
     jcb(t) = b - a
     return x, jcb

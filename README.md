@@ -1,6 +1,7 @@
 # Basic Integraion
 *pick the right method and don't need to worry about the domain*
 
+
 ### methodology
 - Gaussian Quadrature(use [FastGaussQuadrature](https://github.com/JuliaApproximation/FastGaussQuadrature.jl) to generate the nodes and weights)
     - Gauss-Hermite
@@ -34,7 +35,8 @@ GLaguerre(g, a, b, 30)
 
 m(x, c=1e-9, k=2) = c * x^(-k-1) * (1-x)^(k+1)
 a, b = -1e-5, 1  # domain
-d = truncated(Normal(1e-5+1e-3, 1e-3), 1e-5, 1)  # distribution
+# note that I first change variable to the [0, 1] then do the importance sampling
+d = truncated(Normal(1e-3, 1e-3), 0, 1)  # distribution(after change variable, domain=[0, 1])
 nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
 IShalton(m, a, b, d, nodesNum)
 

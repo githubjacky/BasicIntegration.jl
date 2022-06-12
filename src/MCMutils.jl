@@ -5,10 +5,8 @@ function MCMdt(a, b)
         x1, jcb1 = MCMrule2(a)
     elseif a == -Inf
         x1, jcb1 = MCMrule3(b)
-    elseif a != 0 || b != 1
-        x1, jcb1 = MCMrule4(a, b)
     else
-        x1, jcb1 = t -> t, t -> 1
+        x1, jcb1 = MCMrule4(a, b)
     end
     return x1, jcb1
 end
@@ -18,7 +16,12 @@ function multiDim_MCMdt(g::Function, A::Vector{T}, B::Vector{P}, dim) where {T<:
     function trans(t)
         Jcb = 1
         for i = 1:dim
-            x1, jcb1 = MCMdt(A[i], B[i])
+            a, b = A[i], B[i]
+            if a == 0 && b== 1
+                x1, jcb1 = t -> t, t -> 1
+            else
+                x1, jcb1 = MCMdt(a, b)
+            end
             Jcb *= jcb1(t[i])
             t[i] = x1(t[i])
         end

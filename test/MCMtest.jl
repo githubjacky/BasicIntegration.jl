@@ -15,10 +15,11 @@ using QuadGK, HCubature, Distributions
 
 
 g(x, c=1e-9, k=2) = c * x^(-k-1) * (1-x)^(k+1)
-a, b = -1e-5, 1
+a, b = 1e-5, 1
 nodesNum = [524_287, 1_048_575, 2_097_151, 8_388_607, 67_108_863]
-d = truncated(Normal(1e-5+1e-3, 1e-3), 1e-5, 1)
+d = truncated(Normal(1e-3, 1e-3), 0, 1)
 @show IShalton(g, a, b, d, nodesNum)
+@show quadgk(g, a, b)[1]
 
 ################################################################################
 ######################     multi-dimension problem      ########################

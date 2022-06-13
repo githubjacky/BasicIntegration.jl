@@ -1,6 +1,6 @@
 include("../src/BasicIntegration.jl")
 import .BasicIntegration: MCM, quaMCM, IShalton
-using QuadGK, HCubature, Distributions
+using QuadGK, Distributions
 
 
 ################################################################################

@@ -133,6 +133,66 @@ function nodesGen(n, dim, nodes::Vector{Float64}, w::Vector{Float64})
     return Nodes, W
 end
 
+function addInvp(g::Function, A::Vector{T}, B::Vector{P}, dim, groupIndex::Vector{Int64}) where {T<:Real, P<:Real}
+    function trans(t)
+        Invp = 1
+        for i = 1:dim
+            a, b = A[i], B[i]
+            if a == -Inf && b == Inf
+                Invp *= exp(t^2)
+                groupIndex[i] = 1
+            elseif b == Inf
+                Invp *= exp(t)
+                a != 0 && t[i] = t[i] + a
+                groupIndex[ij = 2]
+            else
+                groupIndex[i] = 3
+            end
+        end
+        return g(t) * Invp
+    end
+    return trans
+end
+
+
+function nodesGenGQ(n, dim, nodesArr::Vector{Vector{Float64}}, wArr::Vector{Vector{Float64}}, groupIndex::Vector{Int64})
+    N = n^dim
+    Nodes, W = Vector{Vector{Float64}}(undef, N), Vector{Float64}(undef, N)
+    Nodesᵢ, Wᵢ = Vector{Float64}(undef, dim), Vector{Float64}(undef, dim)
+    for i = 1:dim
+        Nodesᵢ[i] = nodesArr[groupIndex[i]][1]
+        Wᵢ[i] = wArr[groupIndex[i]][1]
+    end
+    index, i = ones(Int64, dim), 1
+    while true
+        Nodes[i] = copy(Nodesᵢ)
+        u = 1
+        for k in Wᵢ
+            u *= k
+        end
+        W[i] = u
+        i != N ? (i += 1) : break 
+        if index[1] != n
+            index[1] += 1
+            Nodesᵢ[1], Wᵢ[1] = nodesArr[groupIndex[1]][index[1]], wArr[groupIndex[1]][index[1]]
+        else
+            for j = 2:dim
+                if index[j] == n
+                    index[j] = 1
+                    Nodesᵢ[j], Wᵢ[j] = nodesArr[groupIndex[j]][1], wArr[groupIndex[j]][1]
+                else
+                    index[j] += 1
+                    Nodesᵢ[j], Wᵢ[j] = nodesArr[groupIndex[j]][index[j]], wArr[groupIndex[j]][index[j]]
+                    break
+                end
+            end
+            index[1] = 1
+            Nodesᵢ[1], Wᵢ[1] = nodesArr[groupIndex[1]][1], wArr[groupIndex[1]][1]
+        end
+    end
+    return Nodes, W
+end
+
 
 function GQrule1()  # [-1, -1] to [-Inf, Inf]
     x(t) = t / (1 - t^2)

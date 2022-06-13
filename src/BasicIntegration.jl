@@ -91,6 +91,20 @@ function GQ(g::Function, b::Real, n::Int64)
 end
 
 
+function GQ(g::Function, A::Vector{T}, B::Vector{P}, n) where {T<:Real, P<:Real}
+    length(A) == length(B) ? (dim = length(A)) : throw("dimension of domain inconsist")
+    nodesArr = Vector{Vector{Float64}}(undef, 3) 
+    wArr = Vector{Vector{Float64}}(undef, 3)
+    nodesArr[1], wArr[1] = gausshermite(n)
+    nodesArr[2], wArr[2] = gausslaguerre(n)
+    nodesArr[3], wArr[3] = gausslegendre(n)
+    groupIndex = Vector{Int64}(undef, dim)
+    g = addInvp(g, A, B, dim, groupIndex)
+    Nodes, W = nodesGenGQ(n, dim, nodesArr, wArr, groupIndex)
+    return dot(g.(Nodes), W)
+end
+
+
 function MCM(g::Function, a::Real, b::Real, nodesNum::Vector{Int64}; seed)  # one dimension case
     if a == 0 && b == 1
         f = g 

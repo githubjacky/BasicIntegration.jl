@@ -2,7 +2,7 @@
 *pick the right method and don't need to worry about the domain*
 
 
-### methodology
+## methodology
 - Gaussian Quadrature(use [FastGaussQuadrature](https://github.com/JuliaApproximation/FastGaussQuadrature.jl) to generate the nodes and weights)
     - Gauss-Hermite
     - Gauss-Laguerre
@@ -17,7 +17,7 @@
         - using Halton sequences to do inverse transform sampling
 
 
-### function
+## function
 - `GHermite()`, `GLaguerre()`, `GLegendre()`, `GQ()`
     - `GQ()` takes advantage of gausshermite and gausslaguerre to deal with univariable problem with domain [-Inf, 0] 
     - `GQ()` will automatically apply different Gauss Quadraturer rules based on diffferent domain in multivariable problem 
@@ -30,7 +30,7 @@
     - `IShalton()` can only be used for univariable problem just now
 
 
-### usage
+## usage
 ```julia
 # univariable
 g = x -> exp(-x^2 / 3) * sqrt(1 + x^2)
@@ -56,6 +56,6 @@ GLegendre(g, A, B, 30)
 ```
 
 
-### note
+## note
 - newbie of julia programming but with enthusiasm
 - still in progress...

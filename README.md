@@ -41,6 +41,10 @@ GLegendre(g, A, B, 30)
 ```
 
 
+## more information
+### [reference](https://opottghjk00.github.io/content/BasicIntegration/index.html)
+
+
 ## note
 - newbie of julia programming but with enthusiasm
 - still in progress...

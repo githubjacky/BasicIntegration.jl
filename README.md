@@ -2,21 +2,6 @@
 *pick the right method and don't need to worry about the domain*
 
 
-## methodology
-- Gaussian Quadrature(use [FastGaussQuadrature](https://github.com/JuliaApproximation/FastGaussQuadrature.jl) to generate the nodes and weights)
-    - Gauss-Hermite
-    - Gauss-Laguerre
-    - Gauss-legendre
-- Monte Carlo integration
-    - vanilla Monte Carlo
-    - Quassi Monte Carlo
-        - use [Halton sequences](https://github.com/tobydriscoll/HaltonSequences.jl) to implment
-        - since the prime I choose is 2 so it's better to pick nodes$=2^n-1$
-    - Importance Sampling
-        - input should include distribution
-        - using Halton sequences to do inverse transform sampling
-
-
 ## function
 - `GHermite()`, `GLaguerre()`, `GLegendre()`, `GQ()`
     - `GQ()` takes advantage of gausshermite and gausslaguerre to deal with univariable problem with domain [-Inf, 0] 

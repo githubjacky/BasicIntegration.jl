@@ -143,7 +143,7 @@ function addInvp(g::Function, A::Vector{T}, B::Vector{P}, dim, groupIndex::Vecto
                 groupIndex[i] = 1
             elseif b == Inf
                 Invp *= exp(t)
-                a != 0 && t[i] = t[i] + a
+                a != 0 && (t[i] = t[i] + a)
                 groupIndex[ij = 2]
             else
                 groupIndex[i] = 3

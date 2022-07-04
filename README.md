@@ -8,7 +8,7 @@
     - `GQ()` will automatically apply different Gauss Quadraturer rules based on diffferent domain in multivariable problem 
         - when domain = [-Inf, Inf], use Gauss-Hermite
         - when domain = [a, Inf], use Gauss-Laguerre
-        - when domain = [-Inf, b], use Gauss-legendre(it might not be best though)
+        - when domain = [-Inf, b], use Gauss-legendre(it might not be the best though)
         - when the domain is proper, use Gauss-legendre
     - all the others can estimate multivariable problem with the vector input 
 - `MCM()`, `quaMCM()`, `IShalton()`

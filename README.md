@@ -41,8 +41,8 @@ GLegendre(g, A, B, 30)
 ```
 
 
-## more information
-### [reference](https://opottghjk00.github.io/content/BasicIntegration/index.html)
+## reference 
+### [more information](https://githubjacky.github.io/content/BasicIntegration/index.html)
 
 
 ## note

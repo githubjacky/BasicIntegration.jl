@@ -1,6 +1,25 @@
 # Basic Integraion
 *pick the right method and don't need to worry about the domain*
 
+## introduction
+This project provide and interface for solving integration problems using guassian quadrature and monte carlo integratioon no matter the problem is univariable or multivarialbe. Furthermore, based on interest, I also implement the function for importance samplingin quasi way through halton sequences.
+
+For Gaussian Quadrature method I implement:
+1. Gauss Hermite
+2. Gauss Laguerre
+3. Gauss Legendre
+
+**note: rely on this project [FastGaussQuadrature.jl](https://github.com/JuliaApproximation/FastGaussQuadrature.jl) to generate the nodes and weights required by the gaussian quadrature method**
+
+As for monte carlo method I implement:
+1. naive monte carlo
+2. quasi monte carlo
+3. importance samplng
+since the quais montecarlo method rely on the halton sequences with the prime = 2, it's better to let the number of nodes = $2^n−1$
+
+**note: both the quasi monte carlo and importance sampling use [HaltonSequences.jl](https://github.com/tobydriscoll/HaltonSequences.jl) to implment**
+
+
 
 ## function
 - `GHermite()`, `GLaguerre()`, `GLegendre()`, `GQ()`
@@ -39,12 +58,3 @@ MCM(g, A, B, nodesNum, seed=1234)
 quaMCM(g, A, B, nodesNum)
 GLegendre(g, A, B, 30)
 ```
-
-
-## reference 
-### [more information](https://githubjacky.github.io/content/BasicIntegration/index.html)
-
-
-## note
-- newbie of julia programming but with enthusiasm
-- still in progress...

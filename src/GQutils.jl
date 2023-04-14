@@ -33,10 +33,12 @@ end
 
 
 function GLadt(a, b)
-    if a == -Inf && b == Inf
-        x1, jcb1 = GQrule1()
-    elseif b == Inf
+    if b == Inf
         x1, jcb1 = t -> t + a, t -> 1
+        x2, jcb2 = t -> t, t -> 1
+        return x1, jcb1, x2, jcb2
+    elseif a == -Inf && b == Inf
+        x1, jcb1 = GQrule1()
     elseif a == -Inf
         x1, jcb1 = GQrule3(b)
     elseif a != -1 || b != 1

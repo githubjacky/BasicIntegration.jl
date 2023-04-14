@@ -1,8 +1,11 @@
-include("../src/BasicIntegration.jl")
-import .BasicIntegration: GHermite, GLaguerre, GLegendre, GQ
-using QuadGK, Distributions, HCubature
+using Test, QuadGK, Distributions, HCubature
+using BasicIntegration
 
 
+
+################################################################################
+###############################  utility function  #############################
+################################################################################
 function sepBeg(str; n=60)
     len = length(str)
     while n < len
@@ -21,11 +24,12 @@ function sepBeg(str; n=60)
     println("#"^n)
 end
 
-
 function sepEnd()
     println()
     println()
 end
+
+
 ################################################################################
 ######################       one dimension problem      ########################
 ################################################################################
@@ -43,8 +47,8 @@ end
 # a, b = -Inf, Inf
 # errAnalysis1(g, a, b)
 # sepEnd()
-# #
-# #
+
+
 # sepBeg("g(x)=exp(-x^2/100)*(1+x^2), A=[0], b=[Inf]")
 # g = x -> exp(-x^2 / 100) * (1 + x^2)
 # a, b = 0, Inf
